@@ -70,13 +70,34 @@ class Solution:
             return ""
         return lcp(0, len(strs) - 1)
 
+    # 二分法
+    def longestCommonPrefix2(self, strs) -> str:
+        def isCommonPrefix(length):
+            str0, count = strs[0][:(length + 1)], len(strs)
+            # if count == 1:
+            #     return str0
+            return all(strs[j][:(length + 1)] == str0 for j in range(1, count)) 
+
+        if not strs:
+            return ""
+        minLength = min(len(s) for s in strs)
+        low, high = 0, minLength - 1
+        while low <= high:
+            print("low -- ", low, ", high -- ", high)
+            mid = (high + low) // 2
+            if isCommonPrefix(mid):
+                low = mid + 1
+            else:
+                high = mid - 1
+        return strs[0][:low]
+
 
 if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     solution = Solution()
     l = ["flower", "flow", "flight"]
-    result = solution.longestCommonPrefix1(l)
+    result = solution.longestCommonPrefix2(l)
     print(result)
     end_time = datetime.datetime.now()
     print(end_time-start_time)
