@@ -88,8 +88,11 @@ class Solution:
         # s[i-dp[i-1] - 1] 是 与 s[i] 应该对应的 位置
         # dp[i-dp[i-1] - 2] 表示 前面的有多少有效括号
         for i in range(n):
-            if s[i] == ')' and i-dp[i-1] - 1 >= 0 and s[i-dp[i-1] - 1] == '(':
-                dp[i] = 2 + dp[i - 1] + dp[i-dp[i-1] - 2]
+            if s[i] == ')':
+                if i - 1 >= 0 and s[i - 1] == '(':
+                    dp[i] = dp[i - 2] + 2
+                elif i - dp[i-1] - 1 >=0 and s[i-dp[i-1] - 1] == '(':
+                    dp[i] = dp[i - 1] + dp[i-dp[i-1] -2] + 2
 
         return max(dp)
 

@@ -83,7 +83,6 @@ class Solution:
         minLength = min(len(s) for s in strs)
         low, high = 0, minLength - 1
         while low <= high:
-            print("low -- ", low, ", high -- ", high)
             mid = (high + low) // 2
             if isCommonPrefix(mid):
                 low = mid + 1
