@@ -39,7 +39,6 @@ LastEditTime: 2020-08-19 18:12:39
 # _*_ coding: utf-8 _*_
 import datetime
 
-
 class Solution:
     def combinationSum2(self, candidates, target: int):
         if not candidates:
@@ -75,6 +74,34 @@ class Solution:
         dfs(0, [], 0)
         return result
 
+    
+    def combinationSum2_2(self, candidates, target: int):
+        if not candidates:
+            return []
+        import collections
+        freq = sorted(collections.Counter(candidates).items()) 
+        def backTrack(index = 0, cur_sum = 0, cur_list = []):
+            if cur_sum == target:
+                # print(cur_list)
+                ans.append(cur_list[:])
+                return
+            elif index >= len(freq) or cur_sum + freq[index][0] > target:
+                return
+            else:
+                backTrack(index + 1, cur_sum, cur_list)
+                # 判断 freq[index] 的数， 需要几个
+                most = min( (target - cur_sum) // freq[index][0], freq[index][1])
+                for i in range(1, most + 1):
+                    cur_list.append(freq[index][0])
+                    backTrack(index+1, cur_sum + freq[index][0] * i, cur_list)
+                for i in range(most):
+                    cur_list.pop()
+                # 不能使用下面的 语句重新赋值
+                # 使用切片修改， 重新使用一个新的变量， 也就是内存中的地址变了， 重新修改后的值，不会返回给后面用到的
+                # cur_list = cur_list[:-most]
+        ans = []
+        backTrack()
+        return ans 
 
 if __name__ == '__main__':
 
@@ -83,8 +110,13 @@ if __name__ == '__main__':
 
     candidates = [10, 1, 2, 7, 6, 1, 5]
     target = 8
-    result = solution.combinationSum2(candidates, target)
+    result = solution.combinationSum2_2(candidates, target)
     print(result)
 
     end_time = datetime.datetime.now()
+
+    test_list = [1,2,3,4,5,6,7]
+    print(id(test_list))
+    test_list = test_list[:-3]
+    print(id(test_list))
     print(end_time-start_time)
