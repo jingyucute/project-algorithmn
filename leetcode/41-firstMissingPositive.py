@@ -49,6 +49,19 @@ class Solution:
 
         return length + 1
 
+    def firstMissingPositive2(self, nums) -> int:
+        # 将数组还原成 [1, 2 , 3 .... N] 的形式
+        # 再判断下标和值是否对应
+        n = len(nums)
+        for i in range(n):
+            # 通过交换保证每轮第i个位置上的数就是对应的数
+            while 1 <= nums[i] <= n and nums[i] != nums[nums[i] - 1]:
+                nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
+        
+        for i in range(n):
+            if nums[i] != i + 1:
+                return i + 1
+        return n + 1
 
 if __name__ == '__main__':
 
@@ -56,7 +69,7 @@ if __name__ == '__main__':
     solution = Solution()
 
     nums = [3, 4, -1, 1]
-    result = solution.firstMissingPositive(nums)
+    result = solution.firstMissingPositive2(nums)
     print(result)
 
     end_time = datetime.datetime.now()

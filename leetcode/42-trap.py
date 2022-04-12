@@ -22,7 +22,6 @@ LastEditTime: 2020-08-19 19:55:00
 # _*_ coding: utf-8 _*_
 import datetime
 
-
 class Solution:
     def trap(self, height) -> int:
         # 主要是找每跟柱子两侧的最大值的最小值， 然后这个值减去当前高度， 就是堆积的雨水量
@@ -46,6 +45,23 @@ class Solution:
             cur_v = min_width_height - hi
             total += cur_v
 
+        return total
+
+    def trap2(self, height) -> int:
+        if not height:
+            return 0
+        total = 0
+        left, right = 0, len(height) - 1
+        leftMax, rightMax = 0, 0 
+        while left < right:
+            leftMax = max(leftMax, height[left])
+            rightMax = max(rightMax, height[right])
+            if height[left] < height[right]:
+                total += leftMax - height[left]
+                left += 1
+            else:
+                total += rightMax - height[right]
+                right -= 1
         return total
 
 
