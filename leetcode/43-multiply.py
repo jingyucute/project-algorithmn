@@ -68,6 +68,24 @@ class Solution:
 
         return ans
 
+    def multiply2(self, num1: str, num2: str) -> str:
+        if num1 == '0' or num2 == "0":
+            return "0"
+
+        len1, len2 = len(num1), len(num2)
+        ansArr = [0] * (len1 + len2)
+        for i in range(len1 - 1, -1, -1):
+            x = int(num1[i])
+            for j in range(len2 -1, -1, -1):
+                y = int(num2[j])
+                ansArr[i + j + 1] += x * y
+        for i in range(len1 + len2 -1, 0, -1):
+            ansArr[i - 1] += ansArr[i] // 10
+            ansArr[i] = ansArr[i] % 10
+        index = 1 if ansArr[0] == 0 else 0
+        ans = "".join(str(x) for x in ansArr[index:])
+        return ans
+
 
 if __name__ == '__main__':
 
@@ -75,7 +93,7 @@ if __name__ == '__main__':
     solution = Solution()
     num1 = "123"
     num2 = "456"
-    result = solution.multiply(num1, num2)
+    result = solution.multiply2(num1, num2)
     print(result)
 
     end_time = datetime.datetime.now()
